@@ -1,12 +1,19 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gymapp/servicos/autenticacaoServicos.dart';
 import 'package:flutter_gymapp/tela/primeira_tela.dart';
 import '../model/Exercicio_modelo.dart';
 
-class Iniciotela extends StatelessWidget {
-   Iniciotela({Key? key}) : super(key: key);
+class Iniciotela extends StatefulWidget {
+  final User user;
+   Iniciotela({Key? key, required this.user}) : super(key: key);
 
+  @override
+  State<Iniciotela> createState() => _IniciotelaState();
+}
+
+class _IniciotelaState extends State<Iniciotela> {
   final List<ExercicioModelo> listaExerciocios = [
    ExercicioModelo(
    id: "EX01",
@@ -32,7 +39,6 @@ class Iniciotela extends StatelessWidget {
    comoFazer: " Segura a barra e puxa"),
   ];
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,14 +48,19 @@ class Iniciotela extends StatelessWidget {
       drawer: Drawer(
         child: ListView(children: [
           UserAccountsDrawerHeader(
-              accountName: accountName,
-              accountEmail: accountEmail),
-
+              currentAccountPicture: const CircleAvatar(
+                backgroundImage: AssetImage("assets/user.png")
+              ),
+              accountName:Text (widget.user.displayName!),
+              accountEmail: Text(widget.user.email!),
+          ),
+          
           ListTile(
         leading:const Icon(Icons.logout),
           title:const Text("Deslogar"),
            onTap:() {
-            Autenticacaoservicos().deslogar();     }
+            Autenticacaoservicos().deslogar();
+        }
 
            )
         ],
@@ -75,4 +86,4 @@ class Iniciotela extends StatelessWidget {
        ) ,
      );
     }
-  }
+}
