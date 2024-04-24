@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        home: RoteadorTela(),
+        home: RoteadorTela()
     );
   }
 }
@@ -33,17 +33,15 @@ class RoteadorTela extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
-      stream: FirebaseAuth.instance.userChanges(),
-    builder: (context, snapshot)  {
-        if(snapshot.hasData){
-          return const Iniciotela();
-        }else{
-          return const AutenticacaoTela();
+        stream: FirebaseAuth.instance.userChanges(),
+        builder: (context, snapshot)  {
+          if(snapshot.hasData){
+            return const Iniciotela();
+          }else{
+            return const AutenticacaoTela();
+          }
         }
-      }
     );
   }
 }
-
-
 
