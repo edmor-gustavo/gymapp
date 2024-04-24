@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_gymapp/_comum/meu_snkbar.dart';
 import 'package:flutter_gymapp/servicos/autenticacaoServicos.dart';
 
 import '../_comum/_minhas_cores.dart';
@@ -169,7 +170,18 @@ class _AutenticacaoTelaState extends State<AutenticacaoTela> {
         print("${emailController.text},"
             "${senhaController.text}, "
             "${nomeController.text}");
-        autenServic.cadastrarUsuario(nome: nome, senha: senha, email: email);
+        autenServic.cadastrarUsuario(
+            nome: nome,
+            senha: senha,
+            email: email).then((String? erro) {
+              if(erro != null){
+                mostrarSnackBar(context: context, texto: erro);
+              }else{
+                mostrarSnackBar(context: context, texto: "Cadastro efectuado com sucesso ",
+                isErro:false);
+              }
+              },
+        );
       }
     }else{
       print("Form Inválido");
