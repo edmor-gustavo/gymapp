@@ -165,6 +165,14 @@ class _AutenticacaoTelaState extends State<AutenticacaoTela> {
     if (_formKey.currentState!.validate()) {
       if (queroEntrar) {
         print("Entrada Validada");
+        autenServic.logarUsuarios(
+            email: email, senha: senha).then(
+                (String? erro ){
+          if(erro != null){
+            mostrarSnackBar(context: context, texto: erro);
+          }
+        },
+        );
       } else {
         print("Cadastro Validado");
         print("${emailController.text},"
@@ -176,9 +184,6 @@ class _AutenticacaoTelaState extends State<AutenticacaoTela> {
             email: email).then((String? erro) {
               if(erro != null){
                 mostrarSnackBar(context: context, texto: erro);
-              }else{
-                mostrarSnackBar(context: context, texto: "Cadastro efectuado com sucesso ",
-                isErro:false);
               }
               },
         );
