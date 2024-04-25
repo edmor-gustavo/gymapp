@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_gymapp/_comum/meu_snkbar.dart';
 import 'package:flutter_gymapp/servicos/autenticacaoServicos.dart';
-
 import '../_comum/_minhas_cores.dart';
 import '../comoponents/declaracao_campo_autenticacao.dart';
 
@@ -151,7 +150,6 @@ class _AutenticacaoTelaState extends State<AutenticacaoTela> {
               ),
             ),
           ),
-
         ],
       ),
     );

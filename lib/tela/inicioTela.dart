@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gymapp/_comum/modal_inicio.dart';
 import 'package:flutter_gymapp/servicos/autenticacaoServicos.dart';
 import 'package:flutter_gymapp/tela/primeira_tela.dart';
 import '../model/Exercicio_modelo.dart';
@@ -54,7 +55,7 @@ class _IniciotelaState extends State<Iniciotela> {
               accountName:Text (widget.user.displayName!),
               accountEmail: Text(widget.user.email!),
           ),
-          
+
           ListTile(
         leading:const Icon(Icons.logout),
           title:const Text("Deslogar"),
@@ -66,6 +67,14 @@ class _IniciotelaState extends State<Iniciotela> {
         ],
   ),
       ),
+
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: (){
+          mostrarModalInicio(context);
+        },
+      ),
+
       body: ListView(children: List.generate(listaExerciocios.length, (index){
         ExercicioModelo exercicioModelo = listaExerciocios[index];
           return  ListTile(
