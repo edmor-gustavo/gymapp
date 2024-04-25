@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:flutter_gymapp/_comum/meu_snkbar.dart';
+import 'package:flutter_gymapp/servicos/autenticacaoServicos.dart';
 import '../_comum/_minhas_cores.dart';
 import '../comoponents/declaracao_campo_autenticacao.dart';
 
@@ -16,6 +17,9 @@ class _AutenticacaoTelaState extends State<AutenticacaoTela> {
 
   TextEditingController emailController = TextEditingController();
   TextEditingController senhaController = TextEditingController();
+  TextEditingController nomeController = TextEditingController();
+
+  Autenticacaoservicos autenServic = Autenticacaoservicos();
 
   @override
   Widget build(BuildContext context) {
@@ -107,6 +111,7 @@ class _AutenticacaoTelaState extends State<AutenticacaoTela> {
                             ),
                             const SizedBox(height: 8),
                             TextFormField(
+                              controller: nomeController,
                               decoration:getAutenticationInputDecoration("Escreva o Nome"),
                               validator: (String? value) {
                                 if(value == null){
@@ -145,19 +150,41 @@ class _AutenticacaoTelaState extends State<AutenticacaoTela> {
               ),
             ),
           ),
-
         ],
       ),
     );
 
   }
   botaoPrincipalClicado(){
+    String nome = nomeController.text;
+    String email = emailController.text;
+    String senha = senhaController.text;
+
     if (_formKey.currentState!.validate()) {
       if (queroEntrar) {
         print("Entrada Validada");
+        autenServic.logarUsuarios(
+            email: email, senha: senha).then(
+                (String? erro ){
+          if(erro != null){
+            mostrarSnackBar(context: context, texto: erro);
+          }
+        },
+        );
       } else {
         print("Cadastro Validado");
-        print("${emailController.text},${senhaController.text}");
+        print("${emailController.text},"
+            "${senhaController.text}, "
+            "${nomeController.text}");
+        autenServic.cadastrarUsuario(
+            nome: nome,
+            senha: senha,
+            email: email).then((String? erro) {
+              if(erro != null){
+                mostrarSnackBar(context: context, texto: erro);
+              }
+              },
+        );
       }
     }else{
       print("Form Inválido");

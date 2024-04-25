@@ -1,7 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gymapp/view/autenticacao_tela.dart';
+import 'package:flutter_gymapp/tela/autenticacao_tela.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_gymapp/tela/inicioTela.dart';
 import 'firebase_options.dart';
+
 
 
 void main() async {
@@ -19,55 +22,25 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-        home: AutenticacaoTela()
+        home: RoteadorTela()
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  final String title;
-  const MyHomePage({super.key, required this.title});
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+class RoteadorTela extends StatelessWidget {
+  const RoteadorTela({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'O Botão foi apertado essa quantidade de vezes:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+    return StreamBuilder<User?>(
+        stream: FirebaseAuth.instance.userChanges(),
+        builder: (context, snapshot)  {
+          if(snapshot.hasData){
+            return  Iniciotela(user: snapshot.data!,);
+          }else{
+            return const AutenticacaoTela();
+          }
+        }
     );
   }
 }
